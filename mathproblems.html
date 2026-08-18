@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Math Problems</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #000000;
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            cursor: default;
+        }
+    </style>
+</head>
+<body>
+
+<script>
+    document.addEventListener('click', function() {
+        const win = window.open('about:blank', '_blank');
+        
+        if (!win) {
+            alert("Popup was blocked.\nPlease allow popups for this site and click again.");
+            return;
+        }
+
+        fetch('moremath.html')
+            .then(response => {
+                if (!response.ok) throw new Error();
+                return response.text();
+            })
+            .then(html => {
+                const doc = win.document;
+                doc.open();
+                doc.write(html);
+                doc.close();
+            })
+            .catch(() => {
+                win.document.body.innerHTML = `
+                    <h1 style="color: red; padding: 50px; font-family: sans-serif;">
+                        Failed to load moremath.html
+                    </h1>`;
+            });
+    });
+</script>
+
+</body>
+</html>

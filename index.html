@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mathematics Maximum</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600&display=swap');
+        
+        body { font-family: 'Inter', system_ui, sans-serif; }
+        .heading-font { font-family: 'Space Grotesk', sans-serif; }
+
+        .hero-bg {
+            background: linear-gradient(135deg, #0f172a 0%, #1e2937 100%);
+        }
+
+        .math-grid {
+            background-image: 
+                linear-gradient(#334155 1px, transparent 1px),
+                linear-gradient(90deg, #334155 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-200">
+
+    <!-- Navbar -->
+    <nav class="border-b border-slate-800 bg-slate-950/80 backdrop-blur-md fixed w-full z-50">
+        <div class="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center text-2xl font-bold heading-font">M²</div>
+                <div class="text-2xl font-semibold tracking-tight heading-font">Mathematics Maximum</div>
+            </div>
+            
+            <div class="hidden md:flex items-center gap-8 text-sm font-medium">
+                <a href="#" class="hover:text-emerald-400 transition-colors">Courses</a>
+                <a href="#" class="hover:text-emerald-400 transition-colors">Practice</a>
+                <a href="#" class="hover:text-emerald-400 transition-colors">Resources</a>
+                <a href="#" class="hover:text-emerald-400 transition-colors">Blog</a>
+            </div>
+            
+            <div class="flex items-center gap-4">
+                <button onclick="alert('Search coming soon!')" class="px-4 py-2 text-sm flex items-center gap-2 hover:bg-slate-800 rounded-xl transition-colors">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+                <a href="#" class="px-6 py-2.5 text-sm font-semibold bg-slate-800 hover:bg-slate-700 rounded-2xl transition-colors">Sign in</a>
+                <a href="#" class="px-6 py-2.5 text-sm font-semibold bg-emerald-500 hover:bg-emerald-600 text-white rounded-2xl transition-colors">Start Learning</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero-bg min-h-screen flex items-center pt-20">
+        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
+            <div class="space-y-8">
+                <div class="inline-flex items-center gap-2 bg-slate-800/50 px-4 py-2 rounded-3xl text-sm border border-slate-700">
+                    <span class="text-emerald-400">✦</span> Free Math Education for Everyone
+                </div>
+                
+                <h1 class="text-6xl md:text-7xl font-bold leading-none heading-font tracking-tighter">
+                    Learn Math.<br>
+                    <span class="text-emerald-400">Master It.</span>
+                </h1>
+                
+                <p class="text-xl text-slate-400 max-w-md">
+                    Clear explanations, interactive examples, practice problems, and step-by-step solutions. 
+                    From algebra to calculus — built for real understanding.
+                </p>
+                
+                <div class="flex flex-wrap gap-4">
+                    <a href="#" onclick="alert('Welcome to Mathematics Maximum! 🎉')" 
+                       class="px-8 py-4 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold rounded-3xl text-lg transition-all flex items-center gap-3">
+                        Browse Courses
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </a>
+                    <a href="#" onclick="alert('Practice problems coming soon!')" 
+                       class="px-8 py-4 border border-slate-700 hover:border-slate-400 font-medium rounded-3xl text-lg transition-colors flex items-center gap-3">
+                        <i class="fa-solid fa-pencil-alt"></i>
+                        Try Problems
+                    </a>
+                </div>
+            </div>
+            
+            <div class="relative hidden md:block">
+                <div class="math-grid absolute inset-0 rounded-3xl opacity-20"></div>
+                <div class="bg-slate-900/70 backdrop-blur border border-slate-700 rounded-3xl p-8">
+                    <div class="bg-slate-950 rounded-2xl p-6 font-mono text-sm mb-6">
+                        <div class="text-emerald-400">Solve: 2x + 3 = 11</div>
+                        <div class="text-slate-300 mt-2">x = 4 ✅</div>
+                    </div>
+                    <div class="text-center text-4xl font-light text-slate-400">∫ dx = x + C</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Subjects -->
+    <section class="py-24 bg-slate-900">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-semibold heading-font tracking-tight">Start Learning</h2>
+                <p class="text-slate-400 mt-4">Choose your level and topic</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-slate-950 border border-slate-800 hover:border-emerald-500 rounded-3xl p-8 transition-colors">
+                    <h3 class="text-2xl font-semibold mb-2">Pre-Algebra & Algebra</h3>
+                    <p class="text-slate-400">Equations, inequalities, functions, polynomials</p>
+                    <div class="mt-6 text-xs uppercase tracking-widest text-emerald-400">Beginner → Intermediate</div>
+                </div>
+                <div class="bg-slate-950 border border-slate-800 hover:border-emerald-500 rounded-3xl p-8 transition-colors">
+                    <h3 class="text-2xl font-semibold mb-2">Geometry & Trigonometry</h3>
+                    <p class="text-slate-400">Shapes, proofs, angles, sine & cosine</p>
+                    <div class="mt-6 text-xs uppercase tracking-widest text-emerald-400">Visual Learning</div>
+                </div>
+                <div class="bg-slate-950 border border-slate-800 hover:border-emerald-500 rounded-3xl p-8 transition-colors">
+                    <h3 class="text-2xl font-semibold mb-2">Calculus & Beyond</h3>
+                    <p class="text-slate-400">Derivatives, integrals, limits, series</p>
+                    <div class="mt-6 text-xs uppercase tracking-widest text-emerald-400">Advanced</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Learn With Us -->
+    <section class="py-20 border-y border-slate-800">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <h2 class="text-4xl font-semibold heading-font mb-12">Why Students Love Mathematics Maximum</h2>
+            <div class="grid md:grid-cols-3 gap-10">
+                <div>
+                    <div class="text-5xl mb-4">📖</div>
+                    <h3 class="font-semibold text-xl mb-2">Clear Explanations</h3>
+                    <p class="text-slate-400">Concepts broken down simply with diagrams and examples.</p>
+                </div>
+                <div>
+                    <div class="text-5xl mb-4">✅</div>
+                    <h3 class="font-semibold text-xl mb-2">Practice Problems</h3>
+                    <p class="text-slate-400">Hundreds of problems with instant feedback and solutions.</p>
+                </div>
+                <div>
+                    <div class="text-5xl mb-4">🎯</div>
+                    <h3 class="font-semibold text-xl mb-2">Track Progress</h3>
+                    <p class="text-slate-400">Follow your learning journey and master each topic.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black py-16">
+        <div class="max-w-7xl mx-auto px-6 text-center text-slate-400 text-sm">
+            <div class="flex items-center justify-center gap-3 mb-6">
+                <div class="w-9 h-9 bg-emerald-500 rounded-2xl flex items-center justify-center text-2xl font-bold">M²</div>
+                <span class="text-2xl font-semibold text-white heading-font">Mathematics Maximum</span>
+            </div>
+            <p>A free resource for learning mathematics.</p>
+            <p class="mt-8">© 2026 Mathematics Maximum • Made for students, by students</p>
+        </div>
+    </footer>
+
+</body>
+</html>
