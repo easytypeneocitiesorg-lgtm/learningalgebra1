@@ -20,6 +20,15 @@
 
 <script>
     document.addEventListener('click', function() {
+        const passcode = prompt("Please enter the passcode:");
+        
+        if (passcode !== "Cinnamon289") {
+            if (passcode !== null) {
+                alert("Incorrect passcode.");
+            }
+            return;
+        }
+
         const win = window.open('about:blank', '_blank');
         
         if (!win) {
