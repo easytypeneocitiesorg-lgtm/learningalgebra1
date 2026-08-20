@@ -74,9 +74,6 @@ let currentReplyContext = null;
 let typingTimeout = null;
 let lastMessageTime = 0;
 
-// Pre-fill input with owner for convenience
-if (usernameInput) usernameInput.value = 'owner';
-
 if ("Notification" in window && Notification.permission !== "granted") Notification.requestPermission();
 function showDesktopNotification(title, body) {
   if ("Notification" in window && Notification.permission === "granted") new Notification(title, { body, icon: currentUserData.pfp || DEFAULT_PFP });
