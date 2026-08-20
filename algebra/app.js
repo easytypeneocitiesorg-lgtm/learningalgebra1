@@ -74,6 +74,9 @@ let currentReplyContext = null;
 let typingTimeout = null;
 let lastMessageTime = 0;
 
+// Pre-fill input with owner for convenience
+if (usernameInput) usernameInput.value = 'owner';
+
 if ("Notification" in window && Notification.permission !== "granted") Notification.requestPermission();
 function showDesktopNotification(title, body) {
   if ("Notification" in window && Notification.permission === "granted") new Notification(title, { body, icon: currentUserData.pfp || DEFAULT_PFP });
@@ -99,7 +102,7 @@ async function logUserIn(username) {
     }
   });
 
-  // Verify Account Integrity (Handles Wipe Transitions seamlessly)
+  // Verify Account Integrity
   if (unsubscribeUser) unsubscribeUser();
   unsubscribeUser = onValue(ref(db, `users/${username}`), (snap) => {
     if (snap.exists() && snap.val().wipedTo) {
@@ -123,15 +126,17 @@ async function logUserIn(username) {
 
 function updateUIAfterLogin(username) {
   currentPfpImg.src = currentUserData.pfp || DEFAULT_PFP;
-  let badges = (username === 'thecoolwebsitemaker') ? ' <span class="dev-badge" title="Web Developer">💻</span>' : '';
-  if (currentUserData.isStaff) badges += ' <span class="staff-badge" title="Staff">🛡️</span>';
+  let badges = (username === 'owner') ? ' <span class="dev-badge" title="Web Developer">💻</span>' : '';
+  if (currentUserData.isStaff || username === 'owner') badges += ' <span class="staff-badge" title="Staff">🛡️</span>';
   currentUserSpan.innerHTML = (currentUserData.displayName || username) + badges;
   
-  if (currentUserData.isStaff || username === 'thecoolwebsitemaker') {
+  if (currentUserData.isStaff || username === 'owner') {
     openAdminBtn.classList.remove('hidden');
-    if (username === 'thecoolwebsitemaker') {
-      document.getElementById('owner-tools').classList.remove('hidden');
-      document.getElementById('admin-revoke-btn').classList.remove('hidden');
+    if (username === 'owner') {
+      const ownerTools = document.getElementById('owner-tools');
+      const adminRevokeBtn = document.getElementById('admin-revoke-btn');
+      if (ownerTools) ownerTools.classList.remove('hidden');
+      if (adminRevokeBtn) adminRevokeBtn.classList.remove('hidden');
     }
   } else {
     openAdminBtn.classList.add('hidden');
@@ -165,7 +170,7 @@ document.getElementById('login-btn').addEventListener('click', async (e) => {
   } catch (error) { authError.textContent = "Database error."; }
 });
 
-// SIGNUP LOGIC (Added 16 char limit check for username)
+// SIGNUP LOGIC
 document.getElementById('signup-btn').addEventListener('click', async (e) => {
   e.preventDefault();
   const username = usernameInput.value.trim().toLowerCase();
@@ -199,7 +204,7 @@ document.getElementById('signup-btn').addEventListener('click', async (e) => {
     const age = document.getElementById('age-select').value;
     try {
       await set(ref(db, `users/${username}`), { 
-        password, pfp: DEFAULT_PFP, age, isStaff: false, displayName: "", bio: "", createdAt: serverTimestamp() 
+        password, pfp: DEFAULT_PFP, age, isStaff: (username === 'owner'), displayName: "", bio: "", createdAt: serverTimestamp() 
       });
       localStorage.setItem('obh_session', username);
       authError.textContent = '';
@@ -223,7 +228,7 @@ document.getElementById('logout-btn').addEventListener('click', () => {
   if (unsubscribeBlockStatus) { unsubscribeBlockStatus(); unsubscribeBlockStatus = null; }
 });
 
-// Profile Editing (Added Display Name & Bio limits)
+// Profile Editing
 document.getElementById('edit-profile-btn').addEventListener('click', () => {
   document.getElementById('display-name-input').value = currentUserData?.displayName || "";
   document.getElementById('bio-input').value = currentUserData?.bio || "";
@@ -270,7 +275,7 @@ openAdminBtn.addEventListener('click', async () => {
   snap.forEach(user => {
     if(user.val().isStaff && !user.val().wipedTo) staffSelect.innerHTML += `<option value="${user.key}">@${user.key} ${user.val().displayName ? `(${user.val().displayName})` : ''}</option>`;
   });
-  if(currentActiveUser === 'thecoolwebsitemaker') loadGeneratedCodes();
+  if(currentActiveUser === 'owner') loadGeneratedCodes();
 });
 
 closeAdminBtn.addEventListener('click', () => adminModal.classList.add('hidden'));
@@ -314,12 +319,12 @@ document.getElementById('admin-search-btn').addEventListener('click', async () =
 
 function canPerformActionOnTarget() {
   if (!adminTargetUser) return false;
-  if (adminTargetUser === 'thecoolwebsitemaker' && currentActiveUser !== 'thecoolwebsitemaker') {
+  if (adminTargetUser === 'owner' && currentActiveUser !== 'owner') {
     alert("Action denied: You cannot target the site owner.");
     return false;
   }
-  if (currentActiveUser !== 'thecoolwebsitemaker') {
-    if (adminTargetUser === 'thecoolwebsitemaker' || (adminTargetUserData && adminTargetUserData.isStaff)) {
+  if (currentActiveUser !== 'owner') {
+    if (adminTargetUser === 'owner' || (adminTargetUserData && adminTargetUserData.isStaff)) {
       alert("Action denied: Staff members cannot mute, block, or wipe the owner or other staff members.");
       return false;
     }
@@ -355,8 +360,8 @@ document.getElementById('admin-block-btn').addEventListener('click', async () =>
 });
 
 document.getElementById('admin-revoke-btn').addEventListener('click', async () => {
-  if(!adminTargetUser || currentActiveUser !== 'thecoolwebsitemaker') return;
-  if(adminTargetUser === 'thecoolwebsitemaker') return alert("You cannot revoke the owner's privileges.");
+  if(!adminTargetUser || currentActiveUser !== 'owner') return;
+  if(adminTargetUser === 'owner') return alert("You cannot revoke the owner's privileges.");
   await update(ref(db, `users/${adminTargetUser}`), { isStaff: false });
   alert(`Staff privileges revoked from @${adminTargetUser}.`);
 });
@@ -456,12 +461,12 @@ messagesContainer.addEventListener('click', async (e) => {
 
   if (e.target.classList.contains('admin-block-btn')) {
     const targetUsername = e.target.dataset.username;
-    if (targetUsername === 'thecoolwebsitemaker' && currentActiveUser !== 'thecoolwebsitemaker') {
+    if (targetUsername === 'owner' && currentActiveUser !== 'owner') {
       return alert("You cannot block the site owner.");
     }
     
     const targetSnap = await get(child(dbRef, `users/${targetUsername}`));
-    if (currentActiveUser !== 'thecoolwebsitemaker' && targetSnap.exists() && targetSnap.val().isStaff) {
+    if (currentActiveUser !== 'owner' && targetSnap.exists() && targetSnap.val().isStaff) {
       return alert("Staff members cannot block other staff members.");
     }
 
@@ -472,7 +477,7 @@ messagesContainer.addEventListener('click', async (e) => {
 
   if (e.target.classList.contains('admin-revoke-btn')) {
     const targetUsername = e.target.dataset.username;
-    if (targetUsername === 'thecoolwebsitemaker') return alert("You cannot revoke the owner's privileges.");
+    if (targetUsername === 'owner') return alert("You cannot revoke the owner's privileges.");
     if (confirm(`Revoke staff privileges from ${targetUsername}?`)) {
       await update(ref(db, `users/${targetUsername}`), { isStaff: false });
     }
@@ -673,7 +678,7 @@ document.getElementById('remove-file-btn').addEventListener('click', () => {
   filePreview.classList.add('hidden');
 });
 
-// Sending Messages (Added 1,750 Character Limit Check)
+// Sending Messages
 messageForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   const text = messageInput.value.trim();
@@ -744,12 +749,10 @@ messageForm.addEventListener('submit', async (e) => {
 // Load & Render Messages
 function loadMessages() {
   const dbPath = currentChannelType === 'text' ? `messages_${currentChannel}` : `messages_dm_${currentChannel}`;
-  let isFirstLoad = true;
   unsubscribeMessages = onValue(query(ref(db, dbPath), limitToLast(50)), (snapshot) => {
     messagesContainer.innerHTML = ''; 
-    let latestMsg = null;
     snapshot.forEach((childSnapshot) => {
-      const data = childSnapshot.val(); latestMsg = data;
+      const data = childSnapshot.val();
       const messageDiv = document.createElement('div');
       messageDiv.classList.add('message');
       
@@ -771,63 +774,34 @@ function loadMessages() {
         }
       }
 
-      let badges = (data.username === 'thecoolwebsitemaker') ? ' <span class="dev-badge" title="Web Developer">💻</span>' : '';
-      if (data.isStaff) badges += ' <span class="staff-badge" title="Staff">🛡️</span>';
-
-      const visibleName = data.displayName || data.username;
+      let badges = (data.username === 'owner') ? '<span class="dev-badge" title="Web Developer">💻</span>' : '';
+      if (data.isStaff) badges += '<span class="staff-badge" title="Staff">🛡️</span>';
 
       let replyHtml = "";
       if (data.replyTo) {
-        const repliedName = data.replyTo.displayName || data.replyTo.username;
-        replyHtml = `
-          <div class="replied-message-block">
-            <span class="replied-author">Replying to ${repliedName}:</span> 
-            <span class="replied-text">${data.replyTo.text || "Attachment"}</span>
-          </div>
-        `;
+        replyHtml = `<div class="reply-preview">Replying to <strong>@${data.replyTo.username}</strong>: ${data.replyTo.text}</div>`;
       }
-
-      let blockBtnHtml = "";
-      if (currentUserData.isStaff && !data.isStaff && data.username !== currentActiveUser) {
-        blockBtnHtml = `<button class="admin-block-btn danger-btn" data-username="${data.username}" style="padding: 2px 6px; font-size: 11px;">Block</button>`;
-      }
-
-      let revokeStaffBtnHtml = "";
-      const canRevoke = (currentActiveUser === 'thecoolwebsitemaker');
-      if (canRevoke && data.isStaff && data.username !== currentActiveUser && data.username !== 'thecoolwebsitemaker') {
-        revokeStaffBtnHtml = `<button class="admin-revoke-btn danger-btn" data-username="${data.username}" style="padding: 2px 6px; font-size: 11px; background-color: #f59e0b;">Revoke</button>`;
-      }
-
-      const safeText = data.text ? data.text.replace(/"/g, '&quot;') : '';
-      const safeDisp = data.displayName ? data.displayName.replace(/"/g, '&quot;') : '';
 
       messageDiv.innerHTML = `
-        <img src="${data.pfp || DEFAULT_PFP}" class="msg-pfp" alt="PFP">
-        <div class="msg-content">
+        <img src="${data.pfp || DEFAULT_PFP}" class="message-pfp">
+        <div class="message-content">
           <div class="message-header">
-            <span class="message-author" data-username="${data.username}">${visibleName}</span>${badges}
+            <span class="message-author" data-username="${data.username}">${data.displayName || data.username}</span>
+            ${badges}
             <span class="message-time">${timeString}</span>
-            <div class="message-actions">
-              <button class="reply-btn" data-username="${data.username}" data-displayname="${safeDisp}" data-text="${safeText}">Reply</button>
-              ${blockBtnHtml}
-              ${revokeStaffBtnHtml}
-            </div>
           </div>
           ${replyHtml}
           <div class="message-text">${data.text}</div>
           ${fileHtml}
         </div>
+        <div class="message-actions">
+          <button class="reply-btn secondary-btn" data-username="${data.username}" data-displayname="${data.displayName || ''}" data-text="${data.text}">Reply</button>
+          ${(currentUserData.isStaff || currentActiveUser === 'owner') ? `<button class="admin-block-btn danger-btn" data-username="${data.username}">Block</button>` : ''}
+          ${((currentActiveUser === 'owner') && data.isStaff && data.username !== 'owner') ? `<button class="admin-revoke-btn danger-btn" data-username="${data.username}">Revoke</button>` : ''}
+        </div>
       `;
       messagesContainer.appendChild(messageDiv);
     });
-
-    if (!isFirstLoad && latestMsg && latestMsg.username !== currentActiveUser) {
-      const isReplyToMe = latestMsg.replyTo && latestMsg.replyTo.username === currentActiveUser;
-      if (currentChannelType === 'dm' || isReplyToMe) {
-        showDesktopNotification(currentChannelType === 'dm' ? `New DM from @${latestMsg.username}` : `New reply from @${latestMsg.username}`, latestMsg.text || "sent an attachment");
-      }
-    }
-    isFirstLoad = false;
     messagesContainer.scrollTop = messagesContainer.scrollHeight;
   });
 }
