@@ -107,8 +107,22 @@
 <body>
     <div class="max-w-7xl mx-auto px-6 py-10">
         <h1 class="text-5xl font-bold tracking-tight mb-12 text-center">mathematics maximum</h1>
-
+        
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
+            <!-- Algebra Site Game Block -->
+            <div class="game-block" onclick="launchGame('./algebra/index.html')">
+                <img src="https://cdn-icons-png.flaticon.com/512/8911/8911291.png" alt="Algebra Site">
+                <p>Algebra</p>
+            </div>
+
+            <div class="game-block" onclick="launchGame('https://learningalgebraof1.wasmer.app')">
+                <img src="https://cdn-icons-png.flaticon.com/512/8911/8911291.png" alt="Br0wse">
+                <p>br0wse</p>
+            </div>
+            <div class="game-block" onclick="launchGame('https://learningthealgebraof1.wasmer.app')">
+                <img src="https://static.vecteezy.com/system/resources/previews/006/662/139/non_2x/artificial-intelligence-ai-processor-chip-icon-symbol-for-graphic-design-logo-web-site-social-media-mobile-app-ui-illustration-free-vector.jpg" alt="Al">
+                <p>Al</p>
+            </div>
             <div class="game-block" onclick="launchGame('https://db.duck.exampredictor.org/html/drift_boss/index.html')">
                 <img src="https://raw.githubusercontent.com/duckmath/icons/refs/heads/main/driftboss.webp" alt="Drift Boss">
                 <p>Drift Boss</p>
@@ -358,14 +372,6 @@
         <iframe id="game-frame" allowfullscreen></iframe>
     </div>
 
-    <!-- Panic Overlay -->
-    <div id="overlay">
-        <div class="text-center">
-            <h1 class="text-5xl font-bold">math</h1>
-            <p class="text-slate-400 mt-4">Additional resources and challenges</p>
-        </div>
-    </div>
-
     <script>
         function launchGame(url) {
             const container = document.getElementById('game-container');
@@ -382,19 +388,6 @@
             container.style.display = 'none';
             frame.src = ''; // Clears the source to stop audio/game processes in the background
         }
-
-        // Overlay logic
-        document.addEventListener('visibilitychange', function() {
-            if (document.visibilityState === 'visible') {
-                document.getElementById('overlay').style.display = 'flex';
-            }
-        });
-
-        document.addEventListener('keydown', function(e) {
-            if (e.key.toLowerCase() === 'k') {
-                document.getElementById('overlay').style.display = 'none';
-            }
-        });
     </script>
 </body>
 </html>
