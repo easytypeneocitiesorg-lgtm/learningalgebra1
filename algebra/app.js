@@ -140,18 +140,25 @@ function updateUIAfterLogin(username) {
   if (currentUserData.isHelper) badges += ' <span class="helper-badge" title="Helper">🛠</span>';
   currentUserSpan.innerHTML = (currentUserData.displayName || username) + badges;
   
-  const isOwnerOrAdmin = currentUserData.isStaff || username === 'thecoolwebsitemaker';
+  const isOwner = username === 'thecoolwebsitemaker';
+  const isStaff = currentUserData.isStaff;
   
-  if (isOwnerOrAdmin) {
+  if (isStaff || isOwner) {
     openAdminBtn.classList.remove('hidden');
     openBlockReqBtn.classList.remove('hidden');
-    document.getElementById('owner-tools').classList.remove('hidden');
-    document.getElementById('admin-revoke-btn').classList.remove('hidden');
     listenToBlockRequests();
   } else {
     openAdminBtn.classList.add('hidden');
     openBlockReqBtn.classList.add('hidden');
     if(unsubscribeBlockReqs) { unsubscribeBlockReqs(); unsubscribeBlockReqs = null; }
+  }
+
+  if (isOwner) {
+    document.getElementById('owner-tools').classList.remove('hidden');
+    document.getElementById('admin-revoke-btn').classList.remove('hidden');
+  } else {
+    document.getElementById('owner-tools').classList.add('hidden');
+    document.getElementById('admin-revoke-btn').classList.add('hidden');
   }
 }
 
@@ -339,16 +346,24 @@ manageUserSearch.addEventListener('input', async (e) => {
 document.addEventListener('click', (e) => { if (!manageUserSearch.contains(e.target) && !manageUserResults.contains(e.target)) manageUserResults.classList.add('hidden'); });
 
 grantStaffBtn.addEventListener('click', async () => {
-  if(!manageTargetUser) return;
-  await update(ref(db, `users/${manageTargetUser}`), { isStaff: true, isHelper: false }); alert(`Granted Staff to ${manageTargetUser}`);
+  if (currentActiveUser !== 'thecoolwebsitemaker') return alert("Access Denied: Owner only.");
+  if (!manageTargetUser) return;
+  await update(ref(db, `users/${manageTargetUser}`), { isStaff: true, isHelper: false }); 
+  alert(`Granted Staff to ${manageTargetUser}`);
 });
+
 grantHelperBtn.addEventListener('click', async () => {
-  if(!manageTargetUser) return;
-  await update(ref(db, `users/${manageTargetUser}`), { isHelper: true, isStaff: false }); alert(`Granted Helper to ${manageTargetUser}`);
+  if (currentActiveUser !== 'thecoolwebsitemaker') return alert("Access Denied: Owner only.");
+  if (!manageTargetUser) return;
+  await update(ref(db, `users/${manageTargetUser}`), { isHelper: true, isStaff: false }); 
+  alert(`Granted Helper to ${manageTargetUser}`);
 });
+
 quickUnblockBtn.addEventListener('click', async () => {
-  if(!manageTargetUser) return;
-  await remove(ref(db, `blocked_users/${manageTargetUser}`)); alert(`Unblocked ${manageTargetUser}`);
+  if (currentActiveUser !== 'thecoolwebsitemaker') return alert("Access Denied: Owner only.");
+  if (!manageTargetUser) return;
+  await remove(ref(db, `blocked_users/${manageTargetUser}`)); 
+  alert(`Unblocked ${manageTargetUser}`);
 });
 
 // Block Requests
