@@ -81,6 +81,8 @@ const el = {
   authSubmitLabel: $("auth-submit-label"),
   authSubmitSpinner: $("auth-submit-spinner"),
 
+  blockedLogoutBtn: $("blocked-logout-btn"),
+
   broadcastBanner: $("broadcast-banner"),
   broadcastText: $("broadcast-text"),
 
