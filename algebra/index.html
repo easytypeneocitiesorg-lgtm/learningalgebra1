@@ -1,210 +1,341 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <!-- Camouflage Title and Metadata -->
-  <title>Algebra 1 Practice & Interactive Lessons</title>
-  <meta name="description" content="Master algebra with our interactive lessons, step-by-step tutorials, and practice problems for students of all levels.">
-  <meta name="keywords" content="algebra, math practice, linear equations, polynomials, homework help, interactive math">
-  <meta name="author" content="Math Learning Foundation">
-  
-  <!-- Math-themed favicon -->
-  <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Math_symbol_x.svg/32px-Math_symbol_x.svg.png" />
-  
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+
+  <title>learnalg</title>
+  <meta name="description" content="learn about algebra" />
+  <meta name="keywords" content="algebra learn" />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="its algebra!" />
+  <meta property="og:description" content="A modern, real-time algebra learning page" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="algebra" />
+
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="algebra" />
+  <meta name="twitter:description" content="learn about algebra" />
+
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <div id="announcement-banner" class="hidden">
-    <span id="announcement-text"></span>
-  </div>
+  <!-- ======================= APP ROOT ======================= -->
+  <div id="app-root">
 
-  <div id="auth-screen" class="screen">
-    <div class="auth-box glass-panel">
-      <h1>The New Discord</h1>
-      <p>Welcome back! Let's get you signed in.</p>
-      
-      <form id="auth-form">
-        <div id="login-fields">
-          <input type="text" id="username" placeholder="Username" required autocomplete="off">
-          <input type="password" id="password" placeholder="Password" required>
-        </div>
-        
-        <div id="age-group" class="hidden">
-          <label style="color: var(--text-normal); font-weight: 500; margin-bottom: 5px; display:block; text-align: left; font-size: 14px;">Select your age:</label>
-          <select id="age-select">
-            <option value="13-14">13-14</option>
-            <option value="15-16">15-16</option>
-            <option value="17-18">17-18</option>
-            <option value="19-20">19-20</option>
-            <option value="21+">21+</option>
-          </select>
-        </div>
-        
-        <div class="auth-buttons">
-          <button type="button" id="login-btn" class="primary-btn">Log In</button>
-          <button type="button" id="signup-btn" class="secondary-btn">Create Account</button>
-        </div>
-        <p id="auth-error" class="error-msg"></p>
-      </form>
-    </div>
-  </div>
-
-  <div id="blocked-screen" class="screen hidden">
-    <div class="blocked-box glass-panel">
-      <h1>You have been blocked by a staff member.</h1>
-      <p>Apply to get an unblock code at <a href="https://discord.gg/wZNGASwP3Y" target="_blank">our server</a>.</p>
-      <input type="text" id="unblock-code-input" placeholder="Enter unblock code..." autocomplete="off">
-      <br>
-      <button id="unblock-btn" class="primary-btn" style="margin-top:10px;">Unblock</button>
-    </div>
-  </div>
-
-  <div id="profile-modal" class="modal hidden">
-    <div class="modal-content glass-panel">
-      <h3 style="margin-bottom: 5px;">Edit Profile</h3>
-      <input type="text" id="display-name-input" placeholder="Display Name (Optional)" maxlength="20">
-      <textarea id="bio-input" placeholder="Write a short bio..." rows="3" maxlength="100"></textarea>
-      <div class="auth-buttons" style="margin-top: 10px;">
-        <button id="save-profile-btn" class="primary-btn">Save</button>
-        <button id="cancel-profile-btn" class="secondary-btn">Cancel</button>
+    <!-- ---------- LOADING SCREEN ---------- -->
+    <div id="loading-screen" class="screen">
+      <div class="loading-brand">
+        <div class="logo-mark">TND</div>
+        <div class="loading-title">The New Discord</div>
+        <div class="spinner"></div>
       </div>
     </div>
-  </div>
 
-  <div id="admin-modal" class="modal hidden">
-    <div class="modal-content glass-panel admin-panel">
-      <h3>Staff & Admin Menu</h3>
-      
-      <div class="admin-section">
-        <h4>Make an Announcement</h4>
-        <input type="text" id="announce-text" placeholder="Announcement message...">
-        <select id="announce-duration">
-          <option value="3">3 Seconds</option>
-          <option value="5">5 Seconds</option>
-          <option value="10">10 Seconds</option>
-          <option value="15">15 Seconds</option>
-          <option value="20">20 Seconds</option>
-        </select>
-        <button id="send-announce-btn" class="primary-btn">Broadcast</button>
-      </div>
+    <!-- ---------- AUTH SCREEN ---------- -->
+    <div id="auth-screen" class="screen hidden">
+      <div class="auth-card glass">
+        <div class="auth-brand">
+          <div class="logo-mark">TND</div>
+          <h1>The New Discord</h1>
+          <p class="auth-subtitle">Real-time chat for your community</p>
+        </div>
 
-      <div class="admin-section">
-        <h4>Manage Users</h4>
-        <div style="display:flex; gap:5px;">
-          <input type="text" id="admin-user-search" placeholder="Search username...">
-          <button id="admin-search-btn" class="secondary-btn">Find</button>
+        <div class="auth-tabs">
+          <button id="tab-login" class="auth-tab active" type="button">Log In</button>
+          <button id="tab-signup" class="auth-tab" type="button">Create Account</button>
         </div>
-        <div id="admin-user-actions" class="hidden" style="margin-top:10px; display:flex; flex-direction:column; gap:5px;">
-          <span id="target-user-display" style="font-weight:bold; color:var(--accent);"></span>
-          <div style="display:flex; gap:5px;">
-            <input type="number" id="mute-duration" placeholder="Minutes" style="width:80px;">
-            <button id="admin-mute-btn" class="secondary-btn">Mute</button>
-          </div>
-          <button id="admin-wipe-btn" class="danger-btn">Wipe Account</button>
-          <button id="admin-block-btn" class="danger-btn">Block From Site</button>
-          <button id="admin-revoke-btn" class="danger-btn hidden">Revoke Staff (Owner Only)</button>
-        </div>
-      </div>
 
-      <div class="admin-section">
-        <h4>Staff Roster</h4>
-        <select id="staff-roster-select">
-          <option value="">-- View Current Staff --</option>
-        </select>
-      </div>
+        <form id="auth-form" class="auth-form" autocomplete="off">
+          <label class="field-label" for="auth-username">Username</label>
+          <input id="auth-username" class="field-input" type="text" maxlength="16"
+                 placeholder="3-16 characters, letters/numbers/_" autocomplete="username" />
 
-      <div id="owner-tools" class="admin-section hidden">
-        <h4 style="color:var(--accent-hover);">Owner Tools</h4>
-        <div style="display:flex; gap:5px; margin-bottom:5px;">
-          <button id="gen-staff-code-btn" class="primary-btn">Gen Staff Code</button>
-          <button id="gen-unblock-code-btn" class="primary-btn">Gen Unblock Code</button>
-        </div>
-        <select id="generated-codes-select">
-          <option value="">-- View Generated Codes --</option>
-        </select>
-      </div>
+          <label class="field-label" for="auth-password">Password</label>
+          <input id="auth-password" class="field-input" type="password"
+                 placeholder="Password" autocomplete="current-password" />
 
-      <button id="close-admin-btn" class="secondary-btn" style="margin-top:10px;">Close Admin Menu</button>
-    </div>
-  </div>
+          <div id="auth-error" class="auth-error hidden" role="alert"></div>
 
-  <div id="chat-screen" class="screen hidden">
-    <div class="sidebar glass-panel">
-      <div>
-        <h2>The New Discord</h2>
-        <div class="channels">
-          <div class="channel-category">TEXT CHANNELS</div>
-          <div class="channel active" data-channel="main" data-type="text"># main-chat</div>
-          <div class="channel" data-channel="staff" data-type="text"># staff-chat 🛡️</div>
-          
-          <div class="channel-category" style="margin-top: 15px;">DIRECT MESSAGES</div>
-          <div class="dm-search-container">
-            <input type="text" id="dm-search-input" placeholder="Find or start a DM..." autocomplete="off">
-            <div id="dm-search-results" class="dm-search-results hidden"></div>
-          </div>
-          <div id="dm-channels-list" class="dm-channels-list">
-            </div>
-        </div>
-      </div>
-      
-      <div class="user-panel">
-        <div class="user-profile-wrapper">
-          <label for="pfp-upload" class="pfp-label" title="Click to change profile picture">
-            <img id="current-pfp" src="" alt="Profile">
-            <div class="pfp-overlay">Edit</div>
-          </label>
-          <input type="file" id="pfp-upload" accept="image/*" class="hidden">
-          <span id="current-user">User</span>
-        </div>
-        <div style="display: flex; gap: 5px;">
-          <button id="edit-profile-btn" class="secondary-btn" style="flex: 1; padding: 6px; font-size: 12px;">⚙️ Profile</button>
-          <button id="logout-btn" class="danger-btn" style="flex: 1; padding: 6px; font-size: 12px;">Logout</button>
-        </div>
-      </div>
-    </div>
-    
-    <div class="chat-area">
-      <div class="chat-header glass-panel">
-        <h3 id="current-channel-title"># main-chat</h3>
-        <div style="margin-left: auto; display: flex; gap: 10px;">
-          <button id="dm-block-toggle-btn" class="danger-btn hidden" style="padding: 4px 10px; font-size: 12px;">Block User</button>
-          <button id="open-admin-btn" class="primary-btn hidden" style="padding: 4px 10px; font-size: 12px;">🛡️ Admin Menu</button>
-        </div>
-      </div>
-      
-      <div id="messages-container" class="messages-container">
-        </div>
-      
-      <div class="input-container glass-panel">
-        <div id="reply-banner" class="hidden">
-          <span>Replying to <strong id="reply-to-name"></strong>: <span id="reply-to-text"></span></span>
-          <button type="button" id="cancel-reply-btn">X</button>
-        </div>
-        <div id="typing-indicator" class="typing-indicator hidden">Someone is typing...</div>
-        <div id="file-preview" class="hidden">
-          <span id="file-preview-name">filename.jpg</span>
-          <button type="button" id="remove-file-btn">X</button>
-        </div>
-        
-        <form id="message-form" class="message-input-area">
-          <label for="file-upload" class="file-label" title="Attach a file">+</label>
-          <input type="file" id="file-upload" class="hidden">
-          <input type="text" id="message-input" placeholder="Message..." autocomplete="off">
-          <button type="submit" class="primary-btn">Send</button>
+          <button id="auth-submit" class="btn btn-primary btn-block" type="submit">
+            <span id="auth-submit-label">Log In</span>
+            <span id="auth-submit-spinner" class="btn-spinner hidden"></span>
+          </button>
         </form>
-        <p id="chat-error" class="error-msg hidden"></p>
+      </div>
+    </div>
+
+    <!-- ---------- BLOCKED SCREEN ---------- -->
+    <div id="blocked-screen" class="screen hidden">
+      <div class="blocked-card glass">
+        <div class="blocked-icon">⛔</div>
+        <h1>You have been blocked from this site.</h1>
+        <p>If you believe this is a mistake, contact a site owner.</p>
+        <button id="blocked-logout-btn" class="btn btn-secondary" type="button">Log Out</button>
+      </div>
+    </div>
+
+    <!-- ---------- MAIN APPLICATION ---------- -->
+    <div id="main-app" class="screen hidden">
+
+      <!-- Broadcast banner -->
+      <div id="broadcast-banner" class="broadcast-banner hidden">
+        <span id="broadcast-text"></span>
+      </div>
+
+      <div class="app-shell">
+
+        <!-- ============ SIDEBAR ============ -->
+        <aside id="sidebar" class="sidebar glass">
+          <div class="sidebar-header">
+            <div class="logo-mark small">TND</div>
+            <span class="sidebar-title">The New Discord</span>
+            <button id="sidebar-toggle" class="icon-btn mobile-only" aria-label="Toggle sidebar">Menu</button>
+          </div>
+
+          <div class="connection-status" id="connection-status">
+            <span class="status-dot" id="status-dot"></span>
+            <span id="status-label">Connecting…</span>
+          </div>
+
+          <nav class="channel-list" id="channel-list" aria-label="Channels">
+            <!-- Channel buttons injected by app.js -->
+          </nav>
+
+          <div class="sidebar-spacer"></div>
+
+          <!-- Bottom-left user panel -->
+          <div class="user-panel" id="user-panel">
+            <button id="user-panel-avatar-btn" class="user-avatar-btn" aria-label="Change profile picture">
+              <img id="user-panel-avatar" class="avatar" src="" alt="Your avatar" />
+            </button>
+            <div class="user-panel-info">
+              <div class="user-panel-name" id="user-panel-name"></div>
+              <div class="user-panel-role" id="user-panel-role"></div>
+            </div>
+            <div class="user-panel-actions">
+              <button id="profile-btn" class="icon-btn" aria-label="Edit profile" title="Profile">Profile</button>
+              <button id="logout-btn" class="icon-btn" aria-label="Log out" title="Log out">Log Out</button>
+            </div>
+          </div>
+        </aside>
+
+        <!-- ============ CHAT AREA ============ -->
+        <main class="chat-area">
+
+          <header class="chat-header glass">
+            <div class="chat-header-left">
+              <button id="mobile-sidebar-btn" class="icon-btn mobile-only" aria-label="Open sidebar">Menu</button>
+              <span id="channel-name-display" class="channel-name">#general</span>
+            </div>
+            <div class="chat-header-right" id="staff-controls">
+              <!-- Staff menu buttons injected by app.js -->
+            </div>
+          </header>
+
+          <div class="messages-scroll" id="messages-scroll">
+            <div id="messages-list" class="messages-list"></div>
+            <div id="empty-channel-state" class="empty-state hidden">
+              <p>No messages yet. Say hello 👋</p>
+            </div>
+          </div>
+
+          <button id="new-messages-btn" class="new-messages-btn hidden" type="button">
+            ↓ New messages
+          </button>
+
+          <!-- Mute notice -->
+          <div id="mute-notice" class="mute-notice hidden">
+            You are muted<span id="mute-remaining"></span>. You can't send messages right now.
+          </div>
+
+          <!-- Reply preview -->
+          <div id="reply-preview" class="reply-preview hidden">
+            <div class="reply-preview-text">
+              Replying to <strong id="reply-preview-name"></strong>
+              <span id="reply-preview-snippet" class="reply-preview-snippet"></span>
+            </div>
+            <button id="cancel-reply-btn" class="icon-btn" aria-label="Cancel reply">Cancel</button>
+          </div>
+
+          <!-- Composer -->
+          <div class="composer">
+            <button id="file-upload-btn" class="icon-btn composer-icon" aria-label="Upload file" title="Upload file">Upload</button>
+            <input id="file-input" type="file" class="hidden" />
+            <textarea id="message-input" class="message-input" placeholder="Message #general"
+                      maxlength="2000" rows="1" aria-label="Message input"></textarea>
+            <button id="send-btn" class="icon-btn composer-icon send-btn" aria-label="Send message" title="Send">Send</button>
+          </div>
+          <div id="file-preview" class="file-preview hidden"></div>
+        </main>
       </div>
     </div>
   </div>
 
-  <div id="cheddar-overlay" class="hidden">
-    <img src="cheddarandbbqwavy.png" alt="Cheddar and BBQ Wavy">
-  </div>
-  <audio id="cheddar-audio" src="cheddarandbbqwavy.mp3" loop></audio>
+  <!-- ======================= MODALS ======================= -->
 
+  <div id="modal-overlay" class="modal-overlay hidden">
+
+    <!-- Profile edit modal -->
+    <div id="modal-profile" class="modal glass hidden">
+      <div class="modal-header">
+        <h2>Edit Profile</h2>
+        <button class="icon-btn modal-close" data-close-modal aria-label="Close">Close</button>
+      </div>
+      <div class="modal-body">
+        <label class="field-label" for="profile-display-name">Display Name <span class="char-counter" id="dn-counter">0/16</span></label>
+        <input id="profile-display-name" class="field-input" type="text" maxlength="16" />
+
+        <label class="field-label" for="profile-bio">Bio <span class="char-counter" id="bio-counter">0/750</span></label>
+        <textarea id="profile-bio" class="field-input" maxlength="750" rows="4"></textarea>
+
+        <div id="profile-error" class="auth-error hidden" role="alert"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-close-modal type="button">Cancel</button>
+        <button id="profile-save-btn" class="btn btn-primary" type="button">Save Changes</button>
+      </div>
+    </div>
+
+    <!-- View user profile modal -->
+    <div id="modal-view-profile" class="modal glass hidden">
+      <div class="modal-header">
+        <h2>Profile</h2>
+        <button class="icon-btn modal-close" data-close-modal aria-label="Close">Close</button>
+      </div>
+      <div class="modal-body view-profile-body">
+        <img id="vp-avatar" class="avatar large" src="" alt="" />
+        <div class="vp-name" id="vp-display-name"></div>
+        <div class="vp-username" id="vp-username"></div>
+        <div class="vp-role" id="vp-role"></div>
+        <p class="vp-bio" id="vp-bio"></p>
+      </div>
+    </div>
+
+    <!-- Staff: management menu -->
+    <div id="modal-staff-menu" class="modal glass hidden">
+      <div class="modal-header">
+        <h2>Staff Menu</h2>
+        <button class="icon-btn modal-close" data-close-modal aria-label="Close">Close</button>
+      </div>
+      <div class="modal-body staff-menu-body">
+        <button id="staff-broadcast-btn" class="btn btn-secondary btn-block">Broadcast</button>
+        <button id="staff-usermanager-btn" class="btn btn-secondary btn-block">User Manager</button>
+        <button id="staff-blockrequests-btn" class="btn btn-secondary btn-block">
+          Block Requests
+          <span id="block-requests-dot" class="notif-dot hidden"></span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Broadcast modal -->
+    <div id="modal-broadcast" class="modal glass hidden">
+      <div class="modal-header">
+        <h2>Send Broadcast</h2>
+        <button class="icon-btn modal-close" data-close-modal aria-label="Close">Close</button>
+      </div>
+      <div class="modal-body">
+        <label class="field-label" for="broadcast-message">Message <span class="char-counter" id="broadcast-counter">0/300</span></label>
+        <textarea id="broadcast-message" class="field-input" maxlength="300" rows="3"></textarea>
+
+        <label class="field-label" for="broadcast-duration">Duration (seconds, 3-20)</label>
+        <input id="broadcast-duration" class="field-input" type="number" min="3" max="20" value="8" />
+
+        <div id="broadcast-error" class="auth-error hidden" role="alert"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-close-modal type="button">Cancel</button>
+        <button id="broadcast-send-btn" class="btn btn-primary" type="button">Send Broadcast</button>
+      </div>
+    </div>
+
+    <!-- User manager modal -->
+    <div id="modal-usermanager" class="modal glass hidden">
+      <div class="modal-header">
+        <h2>User Manager</h2>
+        <button class="icon-btn modal-close" data-close-modal aria-label="Close">Close</button>
+      </div>
+      <div class="modal-body">
+        <input id="user-search-input" class="field-input" type="text" placeholder="Search users…" />
+        <div id="user-search-results" class="user-search-results"></div>
+      </div>
+    </div>
+
+    <!-- Individual user management panel -->
+    <div id="modal-manage-user" class="modal glass hidden">
+      <div class="modal-header">
+        <h2>Manage User</h2>
+        <button class="icon-btn modal-close" data-close-modal aria-label="Close">Close</button>
+      </div>
+      <div class="modal-body">
+        <div class="manage-user-header">
+          <img id="mu-avatar" class="avatar" src="" alt="" />
+          <div>
+            <div id="mu-display-name" class="mu-display-name"></div>
+            <div id="mu-username" class="mu-username"></div>
+          </div>
+        </div>
+        <div id="mu-actions" class="mu-actions"></div>
+      </div>
+    </div>
+
+    <!-- Block request reason modal (Helper) -->
+    <div id="modal-block-reason" class="modal glass hidden">
+      <div class="modal-header">
+        <h2>Request to Block</h2>
+        <button class="icon-btn modal-close" data-close-modal aria-label="Close">Close</button>
+      </div>
+      <div class="modal-body">
+        <label class="field-label" for="block-reason-input">Reason <span class="char-counter" id="reason-counter">0/300</span></label>
+        <textarea id="block-reason-input" class="field-input" maxlength="300" rows="3"></textarea>
+        <div id="block-reason-error" class="auth-error hidden" role="alert"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-close-modal type="button">Cancel</button>
+        <button id="block-reason-submit" class="btn btn-danger" type="button">Submit Request</button>
+      </div>
+    </div>
+
+    <!-- Block requests list -->
+    <div id="modal-block-requests" class="modal glass hidden">
+      <div class="modal-header">
+        <h2>Block Requests</h2>
+        <button class="icon-btn modal-close" data-close-modal aria-label="Close">Close</button>
+      </div>
+      <div class="modal-body">
+        <div id="block-requests-list" class="block-requests-list"></div>
+        <div id="block-requests-empty" class="empty-state hidden"><p>No pending requests.</p></div>
+      </div>
+    </div>
+
+    <!-- Generic confirm modal -->
+    <div id="modal-confirm" class="modal glass hidden small">
+      <div class="modal-header">
+        <h2 id="confirm-title">Are you sure?</h2>
+        <button class="icon-btn modal-close" data-close-modal aria-label="Close">Close</button>
+      </div>
+      <div class="modal-body">
+        <p id="confirm-message"></p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" data-close-modal type="button">Cancel</button>
+        <button id="confirm-action-btn" class="btn btn-danger" type="button">Confirm</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Toast container -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- app.js is loaded as a module because it imports the Firebase SDK
+       directly (see the top of app.js for the Firebase config).
+       Module scripts run after the document is parsed, so every element
+       above is guaranteed to exist before app.js runs. -->
   <script type="module" src="app.js"></script>
 </body>
 </html>
