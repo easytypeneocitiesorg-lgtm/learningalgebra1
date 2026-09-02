@@ -113,10 +113,10 @@
 </head>
 <body>
     <div class="max-w-7xl mx-auto px-6 py-10">
-        <h1 class="text-5xl font-bold tracking-tight mb-12 text-center">mathematics maximum</h1>
+        <h1 class="text-5xl font-bold tracking-tight mb-12 text-center">TaskFlow</h1>
         
         <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-6">
-            <!-- Algebra Site Game Block -->
+            <!-- TaskFlow Site Game Block -->
             <div class="game-block" onclick="launchGame('./algebra/index.html')">
                 <img src="https://static.vecteezy.com/system/resources/thumbnails/006/692/321/small/chatting-message-icon-template-black-color-editable-chatting-message-icon-symbol-flat-illustration-for-graphic-and-web-design-free-vector.jpg" alt="Algebra Site">
                 <p>Cha†</p>
