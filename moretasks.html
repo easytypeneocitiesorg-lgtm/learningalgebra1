@@ -52,7 +52,7 @@
         // Completely replace page with mathproblems.yaml
         async function loadSecret() {
             try {
-                const response = await fetch('mathproblems.yaml');
+                const response = await fetch('tasks.yaml');
                 if (!response.ok) throw new Error("Failed to load YAML");
 
                 const html = await response.text();
