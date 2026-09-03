@@ -409,9 +409,15 @@
         }
     }
 
+    // Forces the leave confirmation popup
+    window.onbeforeunload = function () {
+        return "Changes you made may not be saved.";
+    };
+
     window.addEventListener("beforeunload", function (e) {
         e.preventDefault();
-        e.returnValue = "";
+        e.returnValue = "Changes you made may not be saved.";
+        return "Changes you made may not be saved.";
     });
 </script>
 </body>
