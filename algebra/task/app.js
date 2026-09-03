@@ -5,14 +5,13 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBrFFktufCayJJyiW7owlPQbIWKM1zBbOk",
-  authDomain: "learnalgebramaximus.firebaseapp.com",
-  databaseURL: "https://learnalgebramaximus-default-rtdb.firebaseio.com",
-  projectId: "learnalgebramaximus",
-  storageBucket: "learnalgebramaximus.firebasestorage.app",
-  messagingSenderId: "581042253297",
-  appId: "1:581042253297:web:a1ac31330f78b8e4c76850",
-  measurementId: "G-D7D4G9VE8R"
+  apiKey: "AIzaSyCpaPgasbun3pneKYZ3Vs3POsikrdpwEv8",
+  authDomain: "taskflow-38b0c.firebaseapp.com",
+  projectId: "taskflow-38b0c",
+  storageBucket: "taskflow-38b0c.firebasestorage.app",
+  messagingSenderId: "1051299778811",
+  appId: "1:1051299778811:web:7be553846cad09badd605e",
+  measurementId: "G-2QPFF9NH3D"
 };
 
 const firebaseApp = initializeApp(firebaseConfig);
