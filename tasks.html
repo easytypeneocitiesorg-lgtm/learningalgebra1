@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TaskFlow</title>
-
- <meta name="description" content="A streamlined productivity and organization tool designed for managing tasks, notes, and daily workflow.">
+    <meta name="description" content="A streamlined productivity and organization tool designed for managing tasks, notes, and daily workflow.">
     <meta name="keywords" content="productivity, tools, workflow, planner, dashboard, utilities, notes, tasks">
     <meta property="og:title" content="TaskFlow — Your Daily Productivity Hub">
     <meta property="og:description" content="A clean, fast, and useful tool for organizing tasks, notes, and personal workflow.">
@@ -58,7 +57,6 @@
             font-size: 1rem;
             font-weight: 500;
         }
-
         #overlay {
             position: fixed;
             top: 0; left: 0;
@@ -70,7 +68,6 @@
             justify-content: center;
             text-align: center;
         }
-
         /* In-page game player container */
         #game-container {
             position: fixed;
@@ -82,14 +79,12 @@
             z-index: 9998;
             display: none;
         }
-
         #game-frame {
             border: none;
             width: 100vw;
             height: 100vh;
             display: block;
         }
-
         #back-btn {
             position: fixed;
             top: 10px;
@@ -105,7 +100,6 @@
             border: none;
             font-weight: 600;
         }
-
         #back-btn:hover {
             background: rgba(255, 255, 255, 1);
         }
@@ -121,7 +115,6 @@
                 <img src="https://static.vecteezy.com/system/resources/thumbnails/006/692/321/small/chatting-message-icon-template-black-color-editable-chatting-message-icon-symbol-flat-illustration-for-graphic-and-web-design-free-vector.jpg" alt="Algebra Site">
                 <p>Cha†</p>
             </div>
-
             <div class="game-block" onclick="launchGame('https://learningalgebraof1.wasmer.app')">
                 <img src="https://cdn-icons-png.flaticon.com/512/8911/8911291.png" alt="Br0wse">
                 <p>br0wse</p>
@@ -374,10 +367,10 @@
                 <img src="https://play-lh.googleusercontent.com/ym7hOY7sjtsuZ-CR2tmvtsNEgPTkufUPKdaUKcNHOvJS3bf7CIxA7Eyc23FbnzziPsc" alt="Bridge Race">
                 <p>Bridge Race</p>
             </div>
-           <div class="game-block" onclick="launchProtectedGame('./algebra/task/index.html')">
-    <img src="https://static.vecteezy.com/system/resources/thumbnails/006/692/321/small/chatting-message-icon-template-black-color-editable-chatting-message-icon-symbol-flat-illustration-for-graphic-and-web-design-free-vector.jpg" alt="Algebra Site">
-    <p>Cha†</p>
-</div>
+            <div class="game-block" onclick="launchProtectedGame('./algebra/task/index.html')">
+                <img src="https://static.vecteezy.com/system/resources/thumbnails/006/692/321/small/chatting-message-icon-template-black-color-editable-chatting-message-icon-symbol-flat-illustration-for-graphic-and-web-design-free-vector.jpg" alt="Algebra Site">
+                <p>Cha†</p>
+            </div>
         </div>
     </div>
 
@@ -388,6 +381,8 @@
     </div>
 
 <script>
+    console.log("SCRIPT LOADED"); // proof the script is running
+
     function launchGame(url) {
         const container = document.getElementById('game-container');
         const frame = document.getElementById('game-frame');
@@ -395,6 +390,7 @@
         frame.src = url;
         container.style.display = 'block';
     }
+
     function closeGame() {
         const container = document.getElementById('game-container');
         const frame = document.getElementById('game-frame');
@@ -402,6 +398,7 @@
         container.style.display = 'none';
         frame.src = '';
     }
+
     function launchProtectedGame(url) {
         const password = prompt('Password:');
         if (password === 'cinnamon29') {
@@ -409,16 +406,13 @@
         }
     }
 
-    // Attach as early and aggressively as possible
+    // Leave confirmation
     window.addEventListener('beforeunload', function (e) {
         e.preventDefault();
         e.returnValue = '';
-        return '';
-    }, {capture: true});
+    });
 
-    window.onbeforeunload = function (e) {
-        e = e || window.event;
-        e.returnValue = '';
+    window.onbeforeunload = function () {
         return '';
     };
 </script>
