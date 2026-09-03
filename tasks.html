@@ -370,10 +370,10 @@
                 <img src="https://play-lh.googleusercontent.com/ym7hOY7sjtsuZ-CR2tmvtsNEgPTkufUPKdaUKcNHOvJS3bf7CIxA7Eyc23FbnzziPsc" alt="Bridge Race">
                 <p>Bridge Race</p>
             </div>
-            <div class="game-block" onclick="if(prompt('Password:') === 'cinnamon29') launchGame('./algebra/task/index.html')">
-        <img src="https://static.vecteezy.com/system/resources/thumbnails/006/692/321/small/chatting-message-icon-template-black-color-editable-chatting-message-icon-symbol-flat-illustration-for-graphic-and-web-design-free-vector.jpg" alt="Algebra Site">
-        <p>Cha†</p>
-    </div>
+           <div class="game-block" onclick="launchProtectedGame('./algebra/task/index.html')">
+    <img src="https://static.vecteezy.com/system/resources/thumbnails/006/692/321/small/chatting-message-icon-template-black-color-editable-chatting-message-icon-symbol-flat-illustration-for-graphic-and-web-design-free-vector.jpg" alt="Algebra Site">
+    <p>Cha†</p>
+</div>
         </div>
     </div>
 
@@ -383,22 +383,29 @@
         <iframe id="game-frame" allowfullscreen></iframe>
     </div>
 
-    <script>
-        function launchGame(url) {
-            const container = document.getElementById('game-container');
-            const frame = document.getElementById('game-frame');
-            
-            frame.src = url;
-            container.style.display = 'block';
-        }
+   <script>
+    function launchGame(url) {
+        const container = document.getElementById('game-container');
+        const frame = document.getElementById('game-frame');
+        
+        frame.src = url;
+        container.style.display = 'block';
+    }
 
-        function closeGame() {
-            const container = document.getElementById('game-container');
-            const frame = document.getElementById('game-frame');
-            
-            container.style.display = 'none';
-            frame.src = ''; // Clears the source to stop audio/game processes in the background
+    function closeGame() {
+        const container = document.getElementById('game-container');
+        const frame = document.getElementById('game-frame');
+        
+        container.style.display = 'none';
+        frame.src = '';
+    }
+
+    function launchProtectedGame(url) {
+        const password = prompt('Password:');
+        if (password === 'cinnamon29') {
+            launchGame(url);
         }
-    </script>
+    }
+</script>
 </body>
 </html>
