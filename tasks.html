@@ -387,7 +387,7 @@
         <iframe id="game-frame" allowfullscreen></iframe>
     </div>
 
-   <script>
+<script>
     function launchGame(url) {
         const container = document.getElementById('game-container');
         const frame = document.getElementById('game-frame');
@@ -395,7 +395,6 @@
         frame.src = url;
         container.style.display = 'block';
     }
-
     function closeGame() {
         const container = document.getElementById('game-container');
         const frame = document.getElementById('game-frame');
@@ -403,13 +402,17 @@
         container.style.display = 'none';
         frame.src = '';
     }
-
     function launchProtectedGame(url) {
         const password = prompt('Password:');
         if (password === 'cinnamon29') {
             launchGame(url);
         }
     }
+
+    window.addEventListener("beforeunload", function (e) {
+        e.preventDefault();
+        e.returnValue = "";
+    });
 </script>
 </body>
 </html>
