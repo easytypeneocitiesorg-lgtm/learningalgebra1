@@ -409,12 +409,17 @@
         }
     }
 
+    // Force the leave dialog
     window.addEventListener('beforeunload', function (e) {
-        // Cancel the event
         e.preventDefault();
-        // Chrome requires returnValue to be set
         e.returnValue = '';
+        return '';
     });
+
+    // Also set the old property as backup
+    window.onbeforeunload = function () {
+        return '';
+    };
 </script>
 </body>
 </html>
